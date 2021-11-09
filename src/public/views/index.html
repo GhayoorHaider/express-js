@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;">
+  <title>Sample Site</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <style>
+    #container {
+      width: 700px;
+      margin: 0 auto;
+    }
+    .chat-input {
+      width: 300px;
+      height: 35px;
+      border: solid 1px #444;
+    }
+    .chat-submit {
+      width: 50px;
+      height: 35px;
+      border: solid 1px #444;
+    }
+    .chat-window {
+      height: 300px;
+      width: 400px;
+    }
+    .room-list {
+      height: 50px;
+      width: 100%;
+      display: flex;
+    justify-content: space-around;
+    }
+    #chatSection {
+      float: left;
+      border: 1px grey solid;
+      border-radius: 10px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>
+      Express Chat app
+    </h1>
+
+    <div id="chatSection">
+      <div class="chat-window">
+      </div>
+      <form class="chat-form">
+        <label class="chat-label">
+          Enter a message:
+          <input type="text" class="chat-input" />
+        </label>
+        <input type="submit" id="chatButton" class="chat-submit" value="enter" />
+      </form>
+    </div>
+  </div>
+
+</body>
+<script src="./js/socket.io.js"></script>
+<script src="./js/socket.js"></script>
+
+</html>

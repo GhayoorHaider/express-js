@@ -15,7 +15,10 @@ import { dbConnection } from '@databases';
 import { Routes } from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
+import { SocketService } from './services/socket.service';
 
+import { createServer } from 'http';
+import { Server, Socket } from 'socket.io';
 class App {
   public app: express.Application;
   public port: string | number;
@@ -25,17 +28,20 @@ class App {
     this.app = express();
     this.port = process.env.PORT || 3000;
     this.env = process.env.NODE_ENV || 'development';
-
     this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
     this.initializeSwagger();
     this.initializeErrorHandling();
-    this.initializeSocket();
   }
 
   public listen() {
-    this.app.listen(this.port, () => {
+    const httpServer = createServer(this.app);
+    const io = new Server(httpServer, {
+      // ...
+    });
+    this.initializeSocket(io);
+    httpServer.listen(3000, () => {
       logger.info(`=================================`);
       logger.info(`======= ENV: ${this.env} =======`);
       logger.info(`🚀 App listening on the port ${this.port}`);
@@ -64,6 +70,7 @@ class App {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cookieParser());
+    this.app.use(express.static('src/public'));
   }
 
   private initializeRoutes(routes: Routes[]) {
@@ -92,18 +99,22 @@ class App {
     this.app.use(errorMiddleware);
   }
 
-  private initializeSocket() {
-    let http = require("http").Server(this.app);
-    const io = require("socket.io")(http);
+  private initializeSocket(io: any) {
+    io.on('connection', (socket: Socket) => {
+      console.log('A new user has joined the chat');
 
-    io.on("connection", (socket: any) => {
-      console.log("a user connected");
+      socket.on('message', ({username, msg}) => {
+        console.log('username',username,  msg, socket.id);
 
-      socket.on("message", function(message: any) {
-        console.log(message);
+        io.emit('chat', {
+          username: username,
+          text: msg,
+        });
       });
+    });
 
-
+    io.on('disconnect', () => {
+      io.emit('User has disconnected');
     });
   }
 }
