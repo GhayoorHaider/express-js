@@ -13,8 +13,8 @@ class IndexRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`,authMiddleware, this.indexController.index);
-    this.router.get(`${this.path}login`,authMiddleware, this.indexController.login);
+    this.router.get(`${this.path}`, authMiddleware, this.indexController.index);
+    this.router.get(`${this.path}login`, authMiddleware, this.indexController.login);
     this.router.get(`${this.path}register`, this.indexController.register);
   }
 }

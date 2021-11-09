@@ -8,26 +8,26 @@ import path from 'path';
 class AuthController {
   public authService = new AuthService();
 
-  public signUp = async (req: Request, res: Response, next: NextFunction) => {
+  public signUp = async (req: Request, res: Response) => {
     try {
       const userData: CreateUserDto = req.body;
       const signUpUserData: User = await this.authService.signup(userData);
       res.sendFile(path.join(__dirname, '/../public/views/login.html'));
       //res.status(201).json({ data: signUpUserData, message: 'signup' });
     } catch (error) {
-      res.json({error}).status(400)
+      res.json({ error }).status(400);
       //next(error);
     }
   };
 
-  public logIn = async (req: Request, res: Response, next: NextFunction) => {
+  public logIn = async (req: Request, res: Response) => {
     try {
       const userData: LoginUserDto = req.body;
       const { cookie, findUser } = await this.authService.login(userData);
       res.setHeader('Set-Cookie', [cookie]);
       res.sendFile(path.join(__dirname, '/../public/views/index.html'));
     } catch (error) {
-      res.json({error});
+      res.json({ error });
       //next(error);
     }
   };

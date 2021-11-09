@@ -28,7 +28,6 @@ const chatWindow = document.querySelector('.chat-window')
 
 chatButton.addEventListener('click', event => {
   event.preventDefault()
-  console.log
   socket.emit(`message`, {
     username: userData.data.name,
     msg: Input.value

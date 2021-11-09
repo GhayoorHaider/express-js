@@ -12,7 +12,7 @@ class AuthService {
   public users = userModel;
 
   public async signup(userData: CreateUserDto): Promise<User> {
-    if (isEmpty(userData)) throw new HttpException(400, "Invalid user data");
+    if (isEmpty(userData)) throw new HttpException(400, 'Invalid user data');
 
     const findUser: User = await this.users.findOne({ email: userData.email });
     if (findUser) throw new HttpException(409, `Email ${userData.email} already exists`);
@@ -24,13 +24,13 @@ class AuthService {
   }
 
   public async login(userData: LoginUserDto): Promise<{ cookie: string; findUser: User }> {
-    if (isEmpty(userData)) throw new HttpException(400, "User Data not valid");
+    if (isEmpty(userData)) throw new HttpException(400, 'User Data not valid');
 
     const findUser: User = await this.users.findOne({ email: userData.email });
     if (!findUser) throw new HttpException(409, `Email ${userData.email} not found`);
 
     const isPasswordMatching: boolean = await bcrypt.compare(userData.password, findUser.password);
-    if (!isPasswordMatching) throw new HttpException(409, "Invalid Password");
+    if (!isPasswordMatching) throw new HttpException(409, 'Invalid Password');
 
     const tokenData = this.createToken(findUser);
     const cookie = this.createCookie(tokenData);

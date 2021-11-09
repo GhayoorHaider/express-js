@@ -13,8 +13,8 @@ const userSchema: Schema = new Schema({
   },
   name: {
     type: String,
-    required: true
-  } 
+    required: true,
+  },
 });
 
 const userModel = model<User & Document>('User', userSchema);

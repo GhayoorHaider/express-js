@@ -16,7 +16,6 @@ class UsersController {
     }
   };
 
-
   public getUserById = async (req: any, res: Response, next: NextFunction) => {
     try {
       res.status(200).json({ data: req.user, message: 'User Profile' });

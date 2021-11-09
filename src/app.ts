@@ -15,7 +15,6 @@ import { dbConnection } from '@databases';
 import { Routes } from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
-import { SocketService } from './services/socket.service';
 
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
@@ -101,11 +100,7 @@ class App {
 
   private initializeSocket(io: any) {
     io.on('connection', (socket: Socket) => {
-      console.log('A new user has joined the chat');
-
-      socket.on('message', ({username, msg}) => {
-        console.log('username',username,  msg, socket.id);
-
+      socket.on('message', ({ username, msg }) => {
         io.emit('chat', {
           username: username,
           text: msg,
